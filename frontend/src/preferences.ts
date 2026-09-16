@@ -1,10 +1,4 @@
-/** Generation defaults, remembered per user in this browser.
- *
- *  Deliberately not server state: these only decide which radio button starts
- *  selected, and a preference that needs a migration and an endpoint to change
- *  the initial value of a form is not worth either. Namespaced by user id
- *  because two accounts can share a browser.
- */
+
 
 import { DEFAULT_ASPECT_RATIO, type AspectRatio, type Audience, type Style } from "./types";
 
@@ -12,13 +6,12 @@ export interface Preferences {
   audience: Audience;
   style: Style;
   aspectRatio: AspectRatio;
-  /** Clips per run, and the longest a clip may be. */
+
   teaserCount: number;
   clipMaxSeconds: number;
 }
 
-/** Bounds mirror the API's own validation (backend/app/schemas.py) so a value
- *  stored here can never be one the server will reject. */
+
 export const TEASER_COUNT_RANGE = { min: 1, max: 10 } as const;
 export const CLIP_SECONDS_RANGE = { min: 5, max: 180 } as const;
 
@@ -55,8 +48,7 @@ export function loadPreferences(userId: string): Preferences {
   try {
     const parsed = JSON.parse(raw) as Partial<Preferences>;
     return {
-      // Each field is checked separately so a stored value from an older build
-      // falls back on its own rather than discarding the other one with it.
+      
       audience: VALID_AUDIENCES.includes(parsed.audience as Audience)
         ? (parsed.audience as Audience)
         : DEFAULT_PREFERENCES.audience,
@@ -82,8 +74,7 @@ export function loadPreferences(userId: string): Preferences {
   }
 }
 
-/** Storage is user-writable, so a stored number is not trusted to be in range
- *  or to be a number at all. */
+
 function clamp(
   value: unknown,
   range: { min: number; max: number },
@@ -97,7 +88,6 @@ export function savePreferences(userId: string, preferences: Preferences): void 
   try {
     window.localStorage.setItem(storageKey(userId), JSON.stringify(preferences));
   } catch {
-    /* Storage disabled or full. Defaults are a convenience, so a failed write
-       must not break the settings screen or generation. */
+    
   }
 }

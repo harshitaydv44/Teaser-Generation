@@ -1,6 +1,4 @@
-/** Number formatting shared by the shell, the source panel and teaser tiles.
- *  Oripio shows figures at full precision with grouped thousands, in tabular
- *  numerals (`.o-num`); these helpers produce the strings, the CSS aligns them. */
+
 
 export function formatSize(bytes: number): string {
   const mb = bytes / (1024 * 1024);
@@ -20,9 +18,7 @@ export function timestamp(seconds: number): string {
   return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
 }
 
-/** Absolute date for anything the backend timestamped. Absolute rather than
- *  "3 days ago": these lists are read to find a specific run, and a relative
- *  label is useless for that the moment there is more than one per week. */
+
 export function formatDate(iso: string): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return "Unknown";

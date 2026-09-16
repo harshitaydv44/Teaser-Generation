@@ -10,12 +10,7 @@ import TeaserCard from "./TeaserCard";
 
 const ALL = "all";
 
-/** Every clip ever produced, across runs.
- *
- *  The generate flow shows one run and then forgets it. This is the shelf: work
- *  from different sources and audiences side by side, which is why each card
- *  has to say which run it came out of.
- */
+
 export default function LibraryScreen() {
   const state = useAsync(listTeasers, []);
   const [source, setSource] = useState<string>(ALL);
@@ -23,8 +18,7 @@ export default function LibraryScreen() {
 
   const teasers = state.data?.teasers;
 
-  // Filter options come from the clips themselves, so a filter can never offer
-  // a source that would produce an empty shelf.
+ 
   const sources = useMemo(() => {
     const seen = new Map<string, string>();
     for (const teaser of teasers ?? []) seen.set(teaser.video_id, teaser.filename);

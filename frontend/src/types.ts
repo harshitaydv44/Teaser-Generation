@@ -1,10 +1,9 @@
-/** Shapes returned by the backend. Mirrors docs/API_DESIGN.md. */
+
 
 export type Audience = "general" | "developers" | "business_leaders" | "students";
 export type Style = "informative" | "promotional" | "emotional";
 
-/** Output shapes a run may ask for. Mirrors backend/app/domain.py AspectRatio;
- *  the backend rejects anything outside this set. */
+
 export type AspectRatio = "16:9" | "9:16" | "1:1" | "4:3" | "4:5";
 
 export const DEFAULT_ASPECT_RATIO: AspectRatio = "16:9";
@@ -37,8 +36,7 @@ export interface VideoResponse extends VideoUploadResponse {
   source_url: string | null;
 }
 
-/** A video is only usable once it reaches "ready". A URL fetch sits in
- *  "fetching" until the bytes land, which can take minutes for a long talk. */
+
 export type VideoStatus = "fetching" | "uploaded" | "ready" | "failed";
 
 /** Per-run pipeline settings. Omitted fields fall back to the server default. */
@@ -52,8 +50,7 @@ export interface PipelineOptions {
 /** Matches the backend's max_length on GenerateRequest.custom_prompt. */
 export const MAX_CUSTOM_PROMPT_CHARS = 500;
 
-/** A source video as it appears in a listing: the detail shape plus the totals
- *  that only make sense once other runs exist. */
+
 export interface VideoSummary extends VideoResponse {
   created_at: string;
   job_count: number;
@@ -78,17 +75,16 @@ export interface JobResponse {
   message: string;
   audience: Audience;
   style: Style;
-  /** null on runs from before the shape was selectable. */
+  
   aspect_ratio: AspectRatio | null;
-  /** Free-text direction given for this run, or null. */
+  
   custom_prompt: string | null;
   ai_provider: string | null;
   error_code: string | null;
   error_message: string | null;
 }
 
-/** A past run. Carries the source filename and timestamps that the polling
- *  shape has no use for but a history table cannot do without. */
+
 export interface JobSummary extends JobResponse {
   filename: string;
   teaser_count: number;
@@ -159,8 +155,7 @@ export const AUDIENCE_OPTIONS: { value: Audience; label: string; blurb: string }
   { value: "students", label: "Students", blurb: "Learning value and clarity" },
 ];
 
-/** `frame` is the picker's preview box, sized to the ratio at a common height
- *  so the shapes are comparable at a glance. */
+
 export const ASPECT_RATIO_OPTIONS: {
   value: AspectRatio;
   label: string;

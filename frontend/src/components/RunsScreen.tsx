@@ -14,8 +14,7 @@ import AsyncBoundary from "./AsyncBoundary";
 
 const ALL = "all";
 const PAGE_SIZE = 15;
-/** While something is running, the list refreshes on its own. Slow enough not
- *  to hammer the API, fast enough that a finished run does not sit stale. */
+
 const LIVE_REFRESH_MS = 4000;
 
 interface Props {
@@ -31,8 +30,7 @@ function isRunning(job: JobSummary): boolean {
   return !TERMINAL.includes(job.status);
 }
 
-/** Status as a row badge. A run still in flight shows the stage it reached
- *  rather than a generic "Running", so a stuck job is visibly stuck. */
+
 function RunStatus({ job }: { job: JobSummary }) {
   if (job.status === "failed") {
     return (
@@ -76,8 +74,7 @@ export default function RunsScreen({
   const live = jobs.some(isRunning);
   const { reload } = state;
 
-  // Only polls while something is actually in flight; a settled history is
-  // static and re-fetching it every few seconds would be pure noise.
+  
   useEffect(() => {
     if (!live) return;
     const timer = window.setInterval(reload, LIVE_REFRESH_MS);
@@ -102,7 +99,7 @@ export default function RunsScreen({
       await onRetry(job);
       reload();
     } catch {
-      /* The failure is already surfaced by the page-level alert. */
+      
     } finally {
       setRetrying(null);
     }

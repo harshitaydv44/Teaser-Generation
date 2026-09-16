@@ -39,8 +39,7 @@ import {
 } from "./types";
 
 const POLL_INTERVAL_MS = 1500;
-/** A long talk takes minutes to pull, so the fetch poll is slower than the job
- *  poll and gives up rather than hammering the API forever. */
+
 const FETCH_POLL_INTERVAL_MS = 2500;
 const FETCH_TIMEOUT_MS = 20 * 60 * 1000;
 
@@ -115,8 +114,7 @@ export default function App() {
 
   if (!session) return <LoginScreen />;
 
-  // Keyed on the user id so switching accounts remounts with clean state
-  // rather than carrying the previous user's video and teasers over.
+ 
   return (
     <TeaserApp
       key={session.user.id}
@@ -140,13 +138,7 @@ interface StepActionsProps {
   onStartOver: () => void;
 }
 
-/** The primary action for wherever the run currently is.
- *
- *  Every step now answers "what do I do next?" in the same place. Processing
- *  in particular had nothing at all: a finished run left the reader on a
- *  completed progress bar with no way forward, and a failed one offered no way
- *  to try again — the only exit was the sidebar, which abandons the run.
- */
+
 function StepActions({
   step,
   video,
@@ -161,8 +153,7 @@ function StepActions({
   onStartOver,
 }: StepActionsProps) {
   if (step === "source") {
-    // Uploading is the action here; this only appears once it has produced
-    // something, and moves the reader on rather than making them find the tab.
+    
     return video ? (
       <button type="button" className="btn btn-primary btn-lg" onClick={onContinue}>
         Continue
@@ -253,22 +244,20 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
   const [preferences, setPreferences] = useState<Preferences>(() =>
     loadPreferences(userId),
   );
-  // The run's own choice, seeded from the default but not bound to it: changing
-  // audience for one run must not silently rewrite the account's default.
+  
   const [audience, setAudience] = useState(preferences.audience);
   const [style, setStyle] = useState(preferences.style);
   const [aspectRatio, setAspectRatio] = useState(preferences.aspectRatio);
-  // Per-run only, deliberately not a saved preference: a steer like "focus on
-  // the pricing discussion" is about one video, not about every future one.
+  
   const [customPrompt, setCustomPrompt] = useState("");
 
   const [job, setJob] = useState<JobResponse | null>(null);
   const [teasers, setTeasers] = useState<Teaser[]>([]);
   const [failure, setFailure] = useState<Failure | null>(null);
 
-  /** The run opened from Runs or Dashboard. Non-null means the detail page. */
+ 
   const [openRun, setOpenRun] = useState<JobSummary | null>(null);
-  /** Narrows the Runs page to one video, set by the Videos page. */
+  
   const [runsFilter, setRunsFilter] = useState<string | null>(null);
 
   const pollRef = useRef<number | null>(null);
@@ -289,15 +278,14 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
   }, []);
 
   useEffect(() => {
-    // Both timers must die with the component; a poll that outlives it would
-    // set state on something unmounted and keep hitting the API.
+    
     return () => {
       stopPolling();
       stopFetchPolling();
     };
   }, [stopPolling, stopFetchPolling]);
 
-  // ------------------------------------------------------------------
+ 
   const handleUpload = async (file: File) => {
     setFailure(null);
     setUploading(true);
@@ -308,9 +296,9 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
 
     try {
       const uploaded = await uploadVideo(file, setUploadPercent);
-      // Fetch the full record so probed media facts are shown.
+      
       setVideo(await getVideo(uploaded.video_id));
-      // Move the user on rather than leaving them on a screen whose work is done.
+      
       setStep("options");
     } catch (error) {
       setVideo(null);
@@ -320,10 +308,7 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
     }
   };
 
-  /** Hand a URL to the backend and watch the video until it is usable.
-   *
-   *  The download happens server-side and can take minutes, so this polls the
-   *  video row rather than holding a request open. */
+  
   const handleSubmitUrl = async (url: string) => {
     setFailure(null);
     setJob(null);
@@ -367,8 +352,7 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
               "The video could not be fetched from that link.",
           });
         } else if (Date.now() - startedAt > FETCH_TIMEOUT_MS) {
-          // The fetch may well still be running server-side; this only stops
-          // this tab from polling, and says so rather than claiming failure.
+          
           stopFetchPolling();
           setFetching(false);
           setFetchStatus(null);
@@ -481,19 +465,14 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
     setView("runs");
   };
 
-  /** Re-run a past job's exact settings against the same source.
-   *
-   *  Queued through the ordinary generate endpoint rather than a dedicated
-   *  retry one: a retry *is* a new run, and giving it its own row keeps the
-   *  history of what was attempted intact. */
+  
   const handleRetryRun = async (run: JobSummary) => {
     setFailure(null);
     try {
       await startGeneration(run.video_id, run.audience, run.style, {
         teaser_count: preferences.teaserCount,
         clip_max_seconds: preferences.clipMaxSeconds,
-        // The original run's shape and direction, so a retry reproduces the run
-        // it is retrying rather than a differently-steered one.
+       
         aspect_ratio: (run.aspect_ratio as typeof aspectRatio) ?? aspectRatio,
         custom_prompt: run.custom_prompt ?? undefined,
       });
@@ -504,8 +483,7 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
   };
 
   const changeView = (next: View) => {
-    // Leaving Runs closes the detail page, so coming back lands on the list
-    // rather than on a run the reader has since stopped caring about.
+   
     if (next !== "runs") setOpenRun(null);
     setView(next);
   };
@@ -529,9 +507,7 @@ function TeaserApp({ userId, email }: TeaserAppProps) {
       complete: video !== null,
     },
     {
-      // Not gated on the upload: audience and style are a preference form that
-      // does not depend on the video, so there is no reason to lock it. Only
-      // the Generate action itself needs a source.
+     
       id: "options",
       label: "Audience",
       icon: "users",

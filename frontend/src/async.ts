@@ -1,11 +1,4 @@
-/** Loading one thing from the API, and saying honestly how it went.
- *
- *  Every listing page has the same three states and the same obligation to show
- *  which one it is in. Without something shared they drift: one page shows a
- *  spinner forever on a 401, another renders an empty list and implies the
- *  account has no work in it. `data === null` here means "not loaded yet", never
- *  "loaded and empty" — an empty list is a real value.
- */
+
 
 import { useCallback, useEffect, useState } from "react";
 
@@ -39,9 +32,7 @@ export function useAsync<T>(load: () => Promise<T>, deps: unknown[]): AsyncState
   const [error, setError] = useState<Failure | null>(null);
   const [nonce, setNonce] = useState(0);
 
-  // `load` is a fresh closure on every render, so depending on it directly would
-  // refetch forever. The caller states what the request actually varies with.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   const run = useCallback(load, deps);
 
   useEffect(() => {
@@ -56,8 +47,7 @@ export function useAsync<T>(load: () => Promise<T>, deps: unknown[]): AsyncState
       })
       .catch((cause: unknown) => {
         if (cancelled) return;
-        // The stale value is dropped: showing last week's list beside a failure
-        // message invites the reader to trust it.
+        
         setData(null);
         setError(toFailure(cause));
       })

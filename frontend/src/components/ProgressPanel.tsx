@@ -1,7 +1,6 @@
 import { STATUS_LABELS, type JobResponse, type JobStatus } from "../types";
 import Icon from "../ui/Icon";
 
-/** The stages a job passes through, in order (FR-018). */
 const STAGES: JobStatus[] = [
   "queued",
   "validating",

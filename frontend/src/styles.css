@@ -1,8 +1,4 @@
-/* ------------------------------------------------------------------
-   Teaser Generator — composed from the Oripio design system.
-   Every value here resolves to a token from @ds/styles.css; no raw hex,
-   no second brand hue, no gradient outside the sidebar promo block.
-   ------------------------------------------------------------------ */
+
 
 html,
 body,
@@ -11,10 +7,7 @@ body,
 }
 
 body {
-  /* Full-bleed. The shell used to float as an inset card on the grey canvas,
-     which wasted a band of screen on every edge and made a dense tool feel
-     like a demo screenshot. The desk metaphor now lives inside the shell:
-     white chrome around a recessed grey content column. */
+  
   padding: 0;
   overflow: hidden;
 }
@@ -25,13 +18,8 @@ body {
   color: inherit;
 }
 
-/* ------------------------------------------------------------------
-   The desk metaphor: grey canvas → white shell → grey content column.
-   ------------------------------------------------------------------ */
 .shell {
   display: flex;
-  /* dvh, not vh: mobile browser chrome collapses on scroll and vh would leave
-     a strip of dead space under the fold. */
   height: 100dvh;
   background: var(--surface-shell);
   overflow: hidden;
@@ -109,7 +97,6 @@ body {
 .nav-group + .nav-group {
   margin-top: var(--space-6);
 }
-
 /* Pushed to the floor, above the promo. */
 .nav-group-end {
   margin-top: auto;
@@ -225,9 +212,7 @@ body {
   color: rgba(255, 255, 255, 0.78);
 }
 
-/* ------------------------------------------------------------------
-   Top bar
-   ------------------------------------------------------------------ */
+
 .topbar {
   display: flex;
   align-items: center;
@@ -278,9 +263,7 @@ body {
   font-weight: var(--weight-medium);
 }
 
-/* ------------------------------------------------------------------
-   Page header — greeting, one sentence, right-aligned actions.
-   ------------------------------------------------------------------ */
+
 .pagehead {
   display: flex;
   align-items: flex-start;
@@ -310,9 +293,7 @@ body {
   gap: var(--space-4);
 }
 
-/* ------------------------------------------------------------------
-   Cards — white, radius 16, 18px padding, near-invisible shadow.
-   ------------------------------------------------------------------ */
+
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1.02fr) minmax(0, 1.98fr);
@@ -387,9 +368,6 @@ body {
   height: 22px;
 }
 
-/* ------------------------------------------------------------------
-   Buttons — pills only, never square-cornered.
-   ------------------------------------------------------------------ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -510,9 +488,7 @@ body {
   color: var(--text-muted);
 }
 
-/* ------------------------------------------------------------------
-   Badges and statuses
-   ------------------------------------------------------------------ */
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -574,9 +550,6 @@ body {
   background: var(--danger-600);
 }
 
-/* ------------------------------------------------------------------
-   Error surface — composed from card + danger tint, no new vocabulary.
-   ------------------------------------------------------------------ */
 .alert {
   display: flex;
   align-items: flex-start;
@@ -607,9 +580,7 @@ body {
   color: var(--danger-600);
 }
 
-/* ------------------------------------------------------------------
-   Source video
-   ------------------------------------------------------------------ */
+
 .dropzone {
   display: block;
   width: 100%;
@@ -683,9 +654,7 @@ body {
   word-break: break-all;
 }
 
-/* ------------------------------------------------------------------
-   Choice tiles — the active-nav treatment applied to a radio group.
-   ------------------------------------------------------------------ */
+
 .choice-group {
   border: none;
   padding: 0;

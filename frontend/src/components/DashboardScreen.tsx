@@ -30,18 +30,14 @@ function startOfDay(date: Date): Date {
   return copy;
 }
 
-/** The cutoff for a range, so every figure on the page describes one window. */
+
 function cutoffFor(days: RangeDays): number {
   const start = startOfDay(new Date());
   start.setDate(start.getDate() - (days - 1));
   return start.getTime();
 }
 
-/** Clips per bucket across the range, oldest first.
- *
- *  Ninety daily bars would be unreadable at this width, so longer ranges are
- *  grouped: the bar count stays roughly constant and only its meaning changes,
- *  which the axis labels state. */
+
 function series(
   teasers: LibraryTeaser[],
   days: RangeDays,
@@ -157,8 +153,7 @@ function Summary({ jobs, teasers, days, onDaysChange, onOpenRun }: SummaryProps)
     0,
   );
 
-  // Per source rather than per audience: "which talk is producing the clips"
-  // is the question a shelf of finished work actually raises.
+  
   const byVideo = useMemo(() => {
     const counts = new Map<string, { label: string; value: number }>();
     for (const teaser of windowTeasers) {

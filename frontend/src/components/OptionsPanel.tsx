@@ -91,8 +91,7 @@ export default function OptionsPanel({
           What should it look for?
           <span className="choice-legend-optional">Optional</span>
         </legend>
-        {/* Narrows selection inside the audience and style above rather than
-            replacing them, so those two controls keep meaning what they say. */}
+        
         <div className="field">
           <textarea
             id="custom-prompt"

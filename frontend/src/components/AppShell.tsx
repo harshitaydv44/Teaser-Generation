@@ -19,14 +19,7 @@ interface NavEntry {
   hint: string;
 }
 
-/** The sidebar lists destinations, and nothing else.
- *
- *  It once carried a second "Workflow" group whose entries only scrolled the
- *  current page, so "Generate" and "Source Video" appeared to be two places and
- *  were one. Progress through the flow is a stepper on the page itself.
- *
- *  Grouped by what the reader came to do rather than alphabetically: making a
- *  thing, looking at things already made, then checking how it went. */
+
 const NAV_GROUPS: { label: string; entries: NavEntry[] }[] = [
   {
     label: "Create",

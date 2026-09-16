@@ -10,7 +10,7 @@ interface Props {
   video: VideoResponse | null;
   uploading: boolean;
   uploadPercent: number;
-  /** True while a URL fetch is running server-side. */
+  
   fetching: boolean;
   fetchStatus: string | null;
   onSelect: (file: File) => void;

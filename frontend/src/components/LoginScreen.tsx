@@ -52,9 +52,7 @@ export default function LoginScreen() {
     }
   };
 
-  /** Requires SMTP on the Auth service. The self-hosted stack ships without a
-   *  mail sender, so this reports whatever Auth says rather than pretending a
-   *  message went out. */
+  
   const requestReset = async () => {
     if (!email) {
       setError("Enter your email address first, then request a reset.");
@@ -66,8 +64,7 @@ export default function LoginScreen() {
     try {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(email);
       if (resetError) throw resetError;
-      // Deliberately not "we sent you an email": confirming which addresses are
-      // registered turns this into an account-enumeration oracle.
+      
       setNotice("If that address has an account, a reset link is on its way.");
     } catch (caught) {
       setError(
@@ -215,9 +212,7 @@ export default function LoginScreen() {
             </p>
           </div>
 
-          {/* A real capture of the dashboard, not a mockup. Re-shoot it by
-              signing in, completing a run, and screenshotting /dashboard at
-              1440x900; crop to 1440x760 to drop the empty area below the table. */}
+
           <img
             className="auth-preview"
             src={productShot}

@@ -6,12 +6,11 @@ export interface Step {
   id: StepId;
   label: string;
   icon: IconName;
-  /** Reached at least once, so it can be navigated to. */
+  
   enabled: boolean;
-  /** Its work is actually finished. Not the same as "earlier in the list":
-   *  visiting a step then moving on does not complete it. */
+ 
   complete?: boolean;
-  /** Why it cannot be opened yet, shown on hover. */
+  
   blockedReason?: string;
   count?: number;
 }
@@ -22,14 +21,7 @@ interface Props {
   onSelect: (id: StepId) => void;
 }
 
-/** Progress through the generation flow, and the only way to move between its
- *  screens.
- *
- *  This replaced a second sidebar nav group that duplicated "Generate" and
- *  merely scrolled the page: two controls that looked like destinations, went
- *  to the same place, and showed an active state derived from app state rather
- *  than from what was clicked. Position in a linear flow is progress, not
- *  site structure, so it belongs on the page and not in the sidebar. */
+
 export default function Stepper({ steps, current, onSelect }: Props) {
   return (
     <nav className="stepper" aria-label="Generation progress">

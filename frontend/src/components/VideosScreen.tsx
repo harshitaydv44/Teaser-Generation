@@ -5,8 +5,7 @@ import type { VideoSummary } from "../types";
 import Icon from "../ui/Icon";
 import AsyncBoundary from "./AsyncBoundary";
 
-/** Just the host, so a long watch URL does not push the table wide. The full
- *  URL stays available as a tooltip. */
+
 function hostOf(url: string): string {
   try {
     return new URL(url).hostname.replace(/^www\./, "");
@@ -16,20 +15,14 @@ function hostOf(url: string): string {
 }
 
 interface Props {
-  /** Make this video the active source and go to the audience step. */
+ 
   onGenerate: (video: VideoSummary) => void;
-  /** Show only this video's runs on the Runs page. */
+ 
   onOpenRuns: (videoId: string) => void;
   onUpload: () => void;
 }
 
-/** Sources already uploaded.
- *
- *  This page exists because a video was previously reachable only for as long
- *  as the tab remembered it: re-running the same talk for a second audience
- *  meant uploading the file again. Every row here is a source the backend
- *  already holds, so "Generate" is one request rather than another upload.
- */
+
 export default function VideosScreen({ onGenerate, onOpenRuns, onUpload }: Props) {
   const state = useAsync(listVideos, []);
 

@@ -11,17 +11,10 @@ interface Props {
   onBack: () => void;
 }
 
-/** One run, in full.
- *
- *  Everything here was already persisted and never shown: which provider ran
- *  the analysis, the error code behind a failure, and the per-dimension scores
- *  that the single headline number is a mean of. A run that failed is the case
- *  this page is most needed for, so it reports the failure rather than an
- *  empty clip grid.
- */
+
 export default function RunDetailScreen({ job, onBack }: Props) {
-  // Scoped to this job explicitly: without it the backend answers with the
-  // latest completed run, which for an older or failed run is another run's work.
+  
+  
   const state = useAsync(() => getTeasers(job.video_id, job.job_id), [job.job_id]);
 
   return (

@@ -15,15 +15,11 @@ const SCORE_LABELS: Record<string, string> = {
 
 interface Props {
   teaser: Teaser;
-  /** Where this clip came from. Omitted inside a single run, where every card
-   *  shares one source and saying so on each would be noise; supplied in the
-   *  library, where `#1` means nothing without the run that ranked it. */
+  
   context?: ReactNode;
 }
 
-/** Teaser media sits behind an ownership check, so the MP4 is fetched with the
- *  access token and played from a blob URL. The URL is revoked on unmount --
- *  without that, every re-render of a teaser list leaks a copy of the video. */
+
 function useTeaserMedia(path: string): { url: string | null; failed: boolean } {
   const [url, setUrl] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
@@ -127,9 +123,6 @@ export default function TeaserCard({ teaser, context }: Props) {
         </ul>
       )}
 
-      {/* Named from what the clip is, not from its record id: a filename is
-          something the user keeps, and an internal identifier means nothing to
-          them once it is sitting in a downloads folder. */}
       <a
         className="btn btn-secondary btn-sm btn-full"
         href={url ?? undefined}

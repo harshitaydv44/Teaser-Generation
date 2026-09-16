@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import App from "./App";
-// Oripio token layer first, then the app's composition on top of it.
+
 import "@ds/styles.css";
 import "./styles.css";
 

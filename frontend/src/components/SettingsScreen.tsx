@@ -23,12 +23,7 @@ interface Props {
   onSignOut: () => void;
 }
 
-/** Account facts, generation defaults, and the pipeline knobs.
- *
- *  Teaser count and clip length used to be environment variables, which meant
- *  changing either needed a redeploy and applied to everyone on the deployment.
- *  They are sent per run now, so this screen is where they actually live.
- */
+
 export default function SettingsScreen({
   email,
   preferences,

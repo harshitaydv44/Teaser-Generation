@@ -35,8 +35,7 @@ async function parse<T>(response: Response): Promise<T> {
     return (await response.json()) as T;
   }
 
-  // Every backend failure uses the same envelope; fall back if something else
-  // (a proxy, a crash) responded instead.
+  
   let code = "REQUEST_FAILED";
   let message = `Request failed with status ${response.status}.`;
   try {
@@ -46,7 +45,7 @@ async function parse<T>(response: Response): Promise<T> {
       message = body.error.message;
     }
   } catch {
-    /* keep the fallback message */
+    
   }
   throw new ApiError(code, message, response.status);
 }
@@ -73,8 +72,7 @@ export async function uploadVideo(
 ): Promise<VideoUploadResponse> {
   const headers = await authHeader();
 
-  // XMLHttpRequest rather than fetch: it reports upload progress, which matters
-  // for the large source files this tool accepts (FR-018).
+  
   return new Promise((resolve, reject) => {
     const form = new FormData();
     form.append("file", file);
@@ -138,7 +136,7 @@ export async function fetchTeaserMedia(path: string): Promise<string> {
     throw new ApiError("NETWORK_ERROR", "Could not load the teaser video.", 0);
   }
   if (!response.ok) {
-    return parse<never>(response);
+    throw new ApiError("FETCH_FAILED", "Could not fetch the teaser video.", response.status);
   }
   return URL.createObjectURL(await response.blob());
 }
@@ -147,10 +145,7 @@ export function getVideo(videoId: string): Promise<VideoResponse> {
   return request<VideoResponse>(`/videos/${videoId}`);
 }
 
-/** Queue a fetch of a video from a URL.
- *
- *  Answers 202 with a video that is still `fetching`: the row exists, the bytes
- *  do not. Callers poll `getVideo` until the status changes. */
+
 export function ingestFromUrl(url: string): Promise<VideoResponse> {
   return request<VideoResponse>("/videos/from-url", {
     method: "POST",
@@ -176,8 +171,7 @@ export function getJob(jobId: string): Promise<JobResponse> {
   return request<JobResponse>(`/jobs/${jobId}`);
 }
 
-/** Teasers from one run. Without `jobId` the backend answers with the latest
- *  completed run for that video, which is what the generate flow wants. */
+
 export function getTeasers(
   videoId: string,
   jobId?: string,
@@ -195,7 +189,7 @@ export function listJobs(videoId?: string): Promise<JobListResponse> {
   return request<JobListResponse>(`/jobs${query}`);
 }
 
-/** Every clip the caller owns, across every run. */
+
 export function listTeasers(): Promise<LibraryResponse> {
   return request<LibraryResponse>("/teasers");
 }

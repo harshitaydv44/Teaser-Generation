@@ -8,16 +8,7 @@ interface Props<T> {
   children: (data: T) => ReactNode;
 }
 
-/** The loading and failure states every listing page owes its reader.
- *
- *  A failed fetch renders as a failure with a way out, not as an empty list:
- *  "you have no clips" and "we could not ask" look identical otherwise, and
- *  only one of them is the reader's fault to fix.
- *
- *  Children are a function rather than nodes so the loaded data is non-null by
- *  the time a page renders it, instead of every page guarding for a value this
- *  component has already established is there.
- */
+
 export default function AsyncBoundary<T>({ state, children }: Props<T>) {
   if (state.error) {
     return (
@@ -44,8 +35,6 @@ export default function AsyncBoundary<T>({ state, children }: Props<T>) {
     );
   }
 
-  // Keyed on data rather than `loading`, so a refresh leaves the current page on
-  // screen instead of blanking something the reader is in the middle of using.
   if (state.data === null) {
     return (
       <section className="card">
